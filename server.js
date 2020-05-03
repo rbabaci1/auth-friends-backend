@@ -44,6 +44,7 @@ let friends = [
     email: 'phoebe@friends.com',
   },
 ];
+
 let nextId = friends.length + 1;
 
 app.use(bodyParser.json());
@@ -52,6 +53,7 @@ app.use(cors());
 
 function authenticator(req, res, next) {
   const { authorization } = req.headers;
+
   if (authorization === token) {
     next();
   } else {
@@ -61,7 +63,8 @@ function authenticator(req, res, next) {
 
 app.post('/api/login', (req, res) => {
   const { username, password } = req.body;
-  if (username === 'rabah' && password === 'reactjs') {
+
+  if (username === 'rabah' && password === 'react-js') {
     req.loggedIn = true;
     res.status(200).json({
       payload: { token, username },
@@ -74,9 +77,7 @@ app.post('/api/login', (req, res) => {
 });
 
 app.get('/api/friends', authenticator, (req, res) => {
-  setTimeout(() => {
-    res.send(friends);
-  }, 1000);
+  res.send(friends);
 });
 
 app.get('/api/friends/:id', authenticator, (req, res) => {
@@ -92,7 +93,7 @@ app.get('/api/friends/:id', authenticator, (req, res) => {
 app.post('/api/friends', authenticator, (req, res) => {
   const friend = { ...req.body, id: getNextId() };
 
-  friends = [...friends, friend];
+  friends = [friend, ...friends];
 
   res.send(friends);
 });
@@ -112,7 +113,7 @@ app.put('/api/friends/:id', authenticator, (req, res) => {
     ];
     res.send(friends);
   } else {
-    res.status(404).send({ msg: 'Friend not found' });
+    res.status(404).send({ msg: `Couldn't find friend with id " ${id} ".` });
   }
 });
 
