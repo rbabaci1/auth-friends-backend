@@ -4,7 +4,7 @@
   "description": "our lovely server presides here",
   "main": "\u001b[D\u001b[D\u001b[D\u001bserver.js)",
   "scripts": {
-    "start": "node index.js",
+    "start": "node server.js",
     "test": "test"
   },
   "repository": {
